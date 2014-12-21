@@ -1,40 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <RelativeLayout
-            android:id="@+id/progress_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#d1000000"
-            android:clickable="true"
-            android:visibility="gone">
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:keepScreenOn="true" />
-        </RelativeLayout>
-    </RelativeLayout>
-
-
     <FrameLayout
-        android:id="@+id/nav_drawer"
-        android:layout_width="300dp"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/progress_overlay"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:clickable="true" />
-</android.support.v4.widget.DrawerLayout>
+        android:background="#d1000000"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:keepScreenOn="true" />
+    </RelativeLayout>
+</RelativeLayout>
+

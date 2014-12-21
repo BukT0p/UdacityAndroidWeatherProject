@@ -6,7 +6,6 @@ import android.os.Handler;
 
 import com.dataart.vyakunin.udacityandroidweatherproject.service.messaging.ResultReceiverManager;
 
-
 public class WeatherApplication extends Application {
     private ResultReceiverManager resultReceiverManager;
 

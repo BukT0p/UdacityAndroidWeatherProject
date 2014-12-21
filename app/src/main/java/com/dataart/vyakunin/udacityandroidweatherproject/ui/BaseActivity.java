@@ -24,13 +24,11 @@ import org.androidannotations.annotations.ViewById;
 import java.util.Collections;
 import java.util.List;
 
-@EActivity(R.layout.activity_base)
+@EActivity
 public abstract class BaseActivity extends ActionBarActivity {
 
 
     private Fragment currentFragment;
-    protected DrawerLayout menuDrawer;
-    private ActionBarDrawerToggle drawerToggle;
 
     @ViewById(R.id.progress_overlay)
     View progressOverlay;
@@ -39,53 +37,10 @@ public abstract class BaseActivity extends ActionBarActivity {
         return Collections.EMPTY_LIST;
     }
 
-    @AfterViews
-    protected void afterViews() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.nav_drawer, MenuFragment.newInstance()).commit();
-        drawerToggle = new ActionBarDrawerToggle(this, menuDrawer,
-                R.string.drawer_open, R.string.drawer_close) {
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        };
-        // Set the drawer toggle as the DrawerListener
-        menuDrawer.setDrawerListener(drawerToggle);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-    }
-
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        // Handle your other action bar items...
-
-        return super.onOptionsItemSelected(item);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_base);
     }
 
     @Override

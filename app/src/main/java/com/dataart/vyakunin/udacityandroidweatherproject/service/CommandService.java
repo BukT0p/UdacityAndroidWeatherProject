@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.ResultReceiver;
-import android.util.Log;
 
 import com.dataart.vyakunin.udacityandroidweatherproject.WeatherApplication;
 
@@ -16,9 +15,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by vyakunin on 10/30/2014.
- */
 public class CommandService extends Service {
     private final static String TAG = CommandService.class.getSimpleName();
 
@@ -40,8 +36,7 @@ public class CommandService extends Service {
     private final ConcurrentLinkedQueue<Integer> startIdQueue =
             new ConcurrentLinkedQueue<Integer>();
 
-    private final ThreadPoolExecutor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(
-            4, 6, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+    private final ThreadPoolExecutor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(4, 6, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
     private final SerialExecutor SERIAL_EXECUTOR = new SerialExecutor();
 

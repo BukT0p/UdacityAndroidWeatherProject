@@ -3,6 +3,7 @@ package com.dataart.vyakunin.udacityandroidweatherproject.ui.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.inputmethod.InputMethodManager;
 
 import com.dataart.vyakunin.udacityandroidweatherproject.WeatherApplication;
@@ -16,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @EFragment
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseListFragment extends ListFragment {
 
     private boolean progressVisible;
 

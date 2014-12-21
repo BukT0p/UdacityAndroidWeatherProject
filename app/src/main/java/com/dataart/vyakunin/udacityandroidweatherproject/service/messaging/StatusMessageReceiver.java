@@ -3,9 +3,6 @@ package com.dataart.vyakunin.udacityandroidweatherproject.service.messaging;
 import android.content.Context;
 import android.os.Bundle;
 
-/**
- * Created by sbabakov on 28/05/14.
- */
 public abstract class StatusMessageReceiver implements IStatusMessageReceiver {
 
     public static final String EXTRA_MESSAGE = "message";

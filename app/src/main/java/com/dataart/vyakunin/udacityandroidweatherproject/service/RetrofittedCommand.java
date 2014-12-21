@@ -49,9 +49,9 @@ import retrofit.mime.TypedOutput;
 
 
 public abstract class RetrofittedCommand extends Command {
+//http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&cnt=7&mode=json&units=metric
 
-
-    private static final String ENDPOINT = "www";
+    private static final String ENDPOINT = "http://api.openweathermap.org/data/2.5/forecast/";
 
     protected int bulkInsert(final Uri uri, final List<ContentValues> values) {
         final ContentResolver resolver = context.getContentResolver();
@@ -98,6 +98,11 @@ public abstract class RetrofittedCommand extends Command {
     private static WrappedTargetApi service = null;
 
     protected interface TargetApi {
+
+        @GET("/daily")
+        JSONObject getForecast(@Query("q") String locationNameOrZipCode,
+                               @Query("cnt") int numOfDays,
+                               @Query("units") String units);
 
         @POST("/login")
         JSONObject login(@Body JSONObject params);
@@ -154,6 +159,10 @@ public abstract class RetrofittedCommand extends Command {
                 e.printStackTrace();
             }
             return api.registrant(jsonObject);
+        }
+
+        public JSONObject getWeatherForecast(String units, int days, String locationOrZip) {
+            return api.getForecast(locationOrZip, days, units);
         }
     }
 
