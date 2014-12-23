@@ -1,4 +1,4 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.service;
+package com.dataart.vyakunin.coubplayer.service;
 
 import android.app.Service;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.ResultReceiver;
 
-import com.dataart.vyakunin.udacityandroidweatherproject.WeatherApplication;
+import com.dataart.vyakunin.coubplayer.CoubApplication;
 
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -28,7 +28,7 @@ public class CommandService extends Service {
                 new Intent(context, CommandService.class)
                         .putExtra(EXTRA_COMMAND, command)
                         .putExtra(EXTRA_RECEIVER,
-                                WeatherApplication.getResultReceiverManager(
+                                CoubApplication.getResultReceiverManager(
                                         context.getApplicationContext()))
         );
     }

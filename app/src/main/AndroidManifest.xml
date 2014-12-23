@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dataart.vyakunin.udacityandroidweatherproject" >
+    package="com.dataart.vyakunin.coubplayer">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".CoubApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name=".WeatherApplication"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ui.HomeActivity_"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +21,11 @@
         </activity>
         <service
             android:name=".service.CommandService"
+            android:exported="false" />
+
+        <provider
+            android:name=".datamodel.CoubsContentProvider"
+            android:authorities="com.dataart.vyakunin.coubplayer.datamodel"
             android:exported="false" />
     </application>
 

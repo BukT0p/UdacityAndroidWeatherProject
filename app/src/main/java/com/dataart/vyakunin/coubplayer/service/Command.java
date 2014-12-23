@@ -1,4 +1,4 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.service;
+package com.dataart.vyakunin.coubplayer.service;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +7,10 @@ import android.os.Parcelable;
 import android.os.ResultReceiver;
 import android.util.Log;
 
-import com.dataart.vyakunin.udacityandroidweatherproject.BuildConfig;
-import com.dataart.vyakunin.udacityandroidweatherproject.service.messaging.ResultReceiverManager;
-import com.dataart.vyakunin.udacityandroidweatherproject.service.messaging.StatusBroadcastReceiver;
-import com.dataart.vyakunin.udacityandroidweatherproject.service.messaging.StatusMessageReceiver;
+import com.dataart.vyakunin.coubplayer.service.messaging.ResultReceiverManager;
+import com.dataart.vyakunin.coubplayer.BuildConfig;
+import com.dataart.vyakunin.coubplayer.service.messaging.StatusBroadcastReceiver;
+import com.dataart.vyakunin.coubplayer.service.messaging.StatusMessageReceiver;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;

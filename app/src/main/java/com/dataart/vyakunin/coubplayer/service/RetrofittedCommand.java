@@ -1,45 +1,32 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.service;
+package com.dataart.vyakunin.coubplayer.service;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.location.Address;
 import android.net.Uri;
-import android.util.Base64;
 
-import com.dataart.vyakunin.udacityandroidweatherproject.BuildConfig;
-import com.dataart.vyakunin.udacityandroidweatherproject.util.IOUtil;
-import com.squareup.okhttp.OkHttpClient;
+import com.dataart.vyakunin.coubplayer.BuildConfig;
+import com.dataart.vyakunin.coubplayer.util.IOUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.util.Collections;
 import java.util.List;
 
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RestAdapter.LogLevel;
-import retrofit.client.Header;
-import retrofit.client.OkClient;
-import retrofit.client.Request;
 import retrofit.client.Response;
 import retrofit.converter.ConversionException;
 import retrofit.converter.Converter;
 import retrofit.http.Body;
-import retrofit.http.DELETE;
-import retrofit.http.EncodedQuery;
 import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.mime.MimeUtil;
@@ -49,9 +36,11 @@ import retrofit.mime.TypedOutput;
 
 
 public abstract class RetrofittedCommand extends Command {
-//http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&cnt=7&mode=json&units=metric
 
-    private static final String ENDPOINT = "http://api.openweathermap.org/data/2.5/forecast/";
+    private static final String ENDPOINT = "http://coub.com/api/v2/";
+    private static final String RESULT = "Result";
+    private final static String UTF8 = "UTF-8";
+    private final static String MIME_TYPE = "application/json; charset=UTF-8";
 
     protected int bulkInsert(final Uri uri, final List<ContentValues> values) {
         final ContentResolver resolver = context.getContentResolver();
@@ -60,32 +49,30 @@ public abstract class RetrofittedCommand extends Command {
     }
 
     protected JSONObject getResultObject(final JSONObject json) throws JSONException {
-        return json.getJSONObject("Result");
+        return json.getJSONObject(RESULT);
     }
 
     protected JSONArray getResultArray(final JSONObject json) throws JSONException {
-        return json.getJSONArray("Result");
+        return json.getJSONArray(RESULT);
     }
 
     protected boolean getBooleanFromResult(Response response) {
         TypedInput body = response.getBody();
         byte[] bodyBytes = ((TypedByteArray) body).getBytes();
-        String bodyMime = body.mimeType();
-        String bodyCharset = MimeUtil.parseCharset(bodyMime);
+        String bodyCharset = MimeUtil.parseCharset(body.mimeType(), UTF8);
         String s = null;
         try {
             s = new String(bodyBytes, bodyCharset);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return (s.equals("true"));
+        return ("true".equals(s));
     }
 
     protected String getStringFromResult(Response response) {
         TypedInput body = response.getBody();
         byte[] bodyBytes = ((TypedByteArray) body).getBytes();
-        String bodyMime = body.mimeType();
-        String bodyCharset = MimeUtil.parseCharset(bodyMime);
+        String bodyCharset = MimeUtil.parseCharset(body.mimeType(), UTF8);
         String s = null;
         try {
             s = new String(bodyBytes, bodyCharset);
@@ -98,7 +85,9 @@ public abstract class RetrofittedCommand extends Command {
     private static WrappedTargetApi service = null;
 
     protected interface TargetApi {
-
+        @GET("/categories")
+        JSONArray getCategories();
+/*
         @GET("/daily")
         JSONObject getForecast(@Query("q") String locationNameOrZipCode,
                                @Query("cnt") int numOfDays,
@@ -111,8 +100,7 @@ public abstract class RetrofittedCommand extends Command {
         JSONObject checkContact(@Path("email") String email);
 
         @POST("/registrant")
-        Response registrant(@Body JSONObject params);
-
+        Response registrant(@Body JSONObject params);*/
 
     }
 
@@ -132,6 +120,10 @@ public abstract class RetrofittedCommand extends Command {
             this.converter = converter;
         }
 
+        public JSONArray getCategories() {
+            return api.getCategories();
+        }
+/*
         public JSONObject login(String email, String password, boolean remember) {
             JSONObject params = new JSONObject();
             try {
@@ -164,6 +156,7 @@ public abstract class RetrofittedCommand extends Command {
         public JSONObject getWeatherForecast(String units, int days, String locationOrZip) {
             return api.getForecast(locationOrZip, days, units);
         }
+        */
     }
 
 
@@ -234,17 +227,12 @@ public abstract class RetrofittedCommand extends Command {
      * limitations under the License.
      */
     private static class OrgJsonConverter implements Converter {
-
-        private final static String UTF8 = "UTF-8";
-        private final static String MIME_TYPE = "application/json; charset=UTF-8";
-
         @Override
-        public Object fromBody(TypedInput body, Type type)
-                throws ConversionException {
+        public Object fromBody(TypedInput body, Type type) throws ConversionException {
             final String charset;
             final String mimeType = body.mimeType();
             if (null != mimeType) {
-                charset = MimeUtil.parseCharset(mimeType);
+                charset = MimeUtil.parseCharset(mimeType, UTF8);
             } else {
                 charset = UTF8;
             }
@@ -258,9 +246,7 @@ public abstract class RetrofittedCommand extends Command {
                     s.append(buf, 0, len);
                 }
                 return new JSONTokener(s.toString()).nextValue();
-            } catch (IOException e) {
-                throw new ConversionException(e);
-            } catch (JSONException e) {
+            } catch (JSONException | IOException e) {
                 throw new ConversionException(e);
             } finally {
                 IOUtil.closeQuietly(reader);
@@ -271,23 +257,18 @@ public abstract class RetrofittedCommand extends Command {
         public TypedOutput toBody(Object object) {
             final TypedOutput out;
             try {
-                if (object instanceof JSONObject
-                        || object instanceof JSONArray) {
+                if (object instanceof JSONObject || object instanceof JSONArray) {
                     out = new TypedByteArray(MIME_TYPE, object.toString().getBytes(UTF8));
                 } else if (null == object) {
                     out = new TypedByteArray(MIME_TYPE, "null".getBytes(UTF8));
                 } else {
-                    throw new IllegalArgumentException(
-                            "Expected JSONObject or JSONArray but had "
-                                    + object.getClass().getName()
-                    );
+                    throw new IllegalArgumentException("Expected JSONObject or JSONArray but had " + object.getClass().getName());
                 }
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException("Should not happen, no " + UTF8, e);
             }
             return out;
         }
-
     }
 }
 // EOF

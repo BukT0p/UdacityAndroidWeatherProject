@@ -1,11 +1,9 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.ui;
+package com.dataart.vyakunin.coubplayer.ui;
 
 import android.os.Bundle;
 
-import com.dataart.vyakunin.udacityandroidweatherproject.R;
-import com.dataart.vyakunin.udacityandroidweatherproject.ui.fragments.HomeFragment;
+import com.dataart.vyakunin.coubplayer.ui.fragments.HomeFragment;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity

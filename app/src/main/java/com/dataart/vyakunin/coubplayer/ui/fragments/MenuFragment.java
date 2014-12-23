@@ -1,8 +1,8 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.ui.fragments;
+package com.dataart.vyakunin.coubplayer.ui.fragments;
 
 import android.support.v4.app.Fragment;
 
-import com.dataart.vyakunin.udacityandroidweatherproject.R;
+import com.dataart.vyakunin.coubplayer.R;
 
 import org.androidannotations.annotations.EFragment;
 

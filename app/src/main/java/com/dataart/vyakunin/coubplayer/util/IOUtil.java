@@ -1,4 +1,4 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.util;
+package com.dataart.vyakunin.coubplayer.util;
 
 /*
  * Copyright (C) 2011, 2012 Random Android Code Snippets

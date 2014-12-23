@@ -1,12 +1,12 @@
-package com.dataart.vyakunin.udacityandroidweatherproject;
+package com.dataart.vyakunin.coubplayer;
 
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
-import com.dataart.vyakunin.udacityandroidweatherproject.service.messaging.ResultReceiverManager;
+import com.dataart.vyakunin.coubplayer.service.messaging.ResultReceiverManager;
 
-public class WeatherApplication extends Application {
+public class CoubApplication extends Application {
     private ResultReceiverManager resultReceiverManager;
 
     @Override
@@ -15,12 +15,12 @@ public class WeatherApplication extends Application {
         resultReceiverManager = new ResultReceiverManager(new Handler());
     }
 
-    public static WeatherApplication get(Context context) {
-        return (WeatherApplication) context.getApplicationContext();
+    public static CoubApplication get(Context context) {
+        return (CoubApplication) context.getApplicationContext();
     }
 
     public static ResultReceiverManager getResultReceiverManager(Context context) {
-        return WeatherApplication.get(context).getResultReceiverManager();
+        return CoubApplication.get(context).getResultReceiverManager();
     }
 
     private ResultReceiverManager getResultReceiverManager() {

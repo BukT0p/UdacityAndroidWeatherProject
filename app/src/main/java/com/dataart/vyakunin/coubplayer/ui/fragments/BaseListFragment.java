@@ -1,13 +1,14 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.ui.fragments;
+package com.dataart.vyakunin.coubplayer.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.inputmethod.InputMethodManager;
 
-import com.dataart.vyakunin.udacityandroidweatherproject.WeatherApplication;
-import com.dataart.vyakunin.udacityandroidweatherproject.service.messaging.ResultReceiverManager;
-import com.dataart.vyakunin.udacityandroidweatherproject.ui.BaseActivity;
+import com.dataart.vyakunin.coubplayer.CoubApplication;
+import com.dataart.vyakunin.coubplayer.service.messaging.ResultReceiverManager;
+import com.dataart.vyakunin.coubplayer.ui.BaseActivity;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
@@ -16,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @EFragment
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseListFragment extends ListFragment {
 
     private boolean progressVisible;
 
@@ -26,7 +27,7 @@ public abstract class BaseFragment extends Fragment {
         List<ResultReceiverManager.ResultListener> listeners;
         if ((listeners = getResultListeners()) != null && !listeners.isEmpty()) {
             for (ResultReceiverManager.IResultListener listener : listeners) {
-                WeatherApplication.getResultReceiverManager(getActivity()).addResultListener(listener);
+                CoubApplication.getResultReceiverManager(getActivity()).addResultListener(listener);
             }
         }
     }
@@ -37,7 +38,7 @@ public abstract class BaseFragment extends Fragment {
         List<ResultReceiverManager.ResultListener> listeners;
         if ((listeners = getResultListeners()) != null && !listeners.isEmpty()) {
             for (ResultReceiverManager.IResultListener listener : listeners) {
-                WeatherApplication.getResultReceiverManager(getActivity()).removeResultListener(listener);
+                CoubApplication.getResultReceiverManager(getActivity()).removeResultListener(listener);
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.service.messaging;
+package com.dataart.vyakunin.coubplayer.service.messaging;
 
 
 /*

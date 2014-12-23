@@ -1,23 +1,17 @@
-package com.dataart.vyakunin.udacityandroidweatherproject.ui;
+package com.dataart.vyakunin.coubplayer.ui;
 
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.dataart.vyakunin.udacityandroidweatherproject.R;
-import com.dataart.vyakunin.udacityandroidweatherproject.WeatherApplication;
-import com.dataart.vyakunin.udacityandroidweatherproject.service.messaging.ResultReceiverManager;
-import com.dataart.vyakunin.udacityandroidweatherproject.ui.fragments.MenuFragment;
+import com.dataart.vyakunin.coubplayer.CoubApplication;
+import com.dataart.vyakunin.coubplayer.R;
+import com.dataart.vyakunin.coubplayer.service.messaging.ResultReceiverManager;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -49,7 +43,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         List<ResultReceiverManager.ResultListener> listeners;
         if ((listeners = getResultListeners()) != null && !listeners.isEmpty()) {
             for (ResultReceiverManager.IResultListener listener : listeners) {
-                WeatherApplication.getResultReceiverManager(this).addResultListener(listener);
+                CoubApplication.getResultReceiverManager(this).addResultListener(listener);
             }
         }
     }
@@ -60,7 +54,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         List<ResultReceiverManager.ResultListener> listeners;
         if ((listeners = getResultListeners()) != null && !listeners.isEmpty()) {
             for (ResultReceiverManager.IResultListener listener : listeners) {
-                WeatherApplication.getResultReceiverManager(this).removeResultListener(listener);
+                CoubApplication.getResultReceiverManager(this).removeResultListener(listener);
             }
         }
     }
