@@ -6,9 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.widget.CursorAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.dataart.vyakunin.coubplayer.R;
@@ -18,6 +18,7 @@ import com.dataart.vyakunin.coubplayer.datamodel.CoubsContentProvider;
 import com.dataart.vyakunin.coubplayer.service.Command;
 import com.dataart.vyakunin.coubplayer.service.messaging.ResultReceiverManager;
 import com.dataart.vyakunin.coubplayer.ui.adapters.CategoryAdapter;
+import com.dataart.vyakunin.coubplayer.ui.adapters.DividerItemDecoration;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -34,30 +35,21 @@ public class HomeFragment extends BaseFragment {
 
     private CategoryAdapter adapter;
 
-    @ViewById(R.id.list_view)
-    ListView listView;
+    @ViewById(R.id.recycler_view)
+    RecyclerView recyclerView;
 
     @AfterViews
     void init() {
         adapter = new CategoryAdapter(getActivity(), null);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         new GetCategoriesCommand().start(getActivity());
         showProgressOverlay(true);
+        getLoaderManager().restartLoader(10, null, contactsLoader);
     }
-
-    private ResultReceiverManager.ResultListener forecastResultListener = new ResultReceiverManager.ResultListener(Command.getCode(GetCategoriesCommand.class)) {
-        @Override
-        protected void onSuccess(Bundle resultData) {
-            showProgressOverlay(false);
-            getLoaderManager().restartLoader(10, null, contactsLoader);
-        }
-
-        @Override
-        protected void onError(Bundle resultData) {
-            showProgressOverlay(false);
-            Toast.makeText(getActivity(), "Sync error", Toast.LENGTH_LONG).show();
-        }
-    };
-
 
     private LoaderManager.LoaderCallbacks<Cursor> contactsLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
 
@@ -69,6 +61,8 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
             adapter.changeCursor(cursor);
+            if (cursor.getCount() > 0)
+                showProgressOverlay(false);
         }
 
         @Override
@@ -77,9 +71,21 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
+    private ResultReceiverManager.ResultListener categoriesListener = new ResultReceiverManager.ResultListener(Command.getCode(GetCategoriesCommand.class)) {
+        @Override
+        protected void onSuccess(Bundle resultData) {
+            getLoaderManager().restartLoader(10, null, contactsLoader);
+        }
+
+        @Override
+        protected void onError(Bundle resultData) {
+            showProgressOverlay(false);
+            Toast.makeText(getActivity(), "Sync error", Toast.LENGTH_LONG).show();
+        }
+    };
 
     @Override
     protected List<ResultReceiverManager.ResultListener> getResultListeners() {
-        return Arrays.asList(forecastResultListener);
+        return Arrays.asList(categoriesListener);
     }
 }

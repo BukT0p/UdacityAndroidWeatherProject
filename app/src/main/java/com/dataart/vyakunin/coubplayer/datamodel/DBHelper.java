@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import com.dataart.vyakunin.coubplayer.datamodel.models.CoubCategory;
+import com.dataart.vyakunin.coubplayer.datamodel.models.CoubItem;
 
 import java.util.ArrayList;
 
@@ -20,5 +21,9 @@ public class DBHelper {
             cvs[i++] = cv;
         }
         context.getContentResolver().bulkInsert(CoubsContentProvider.contentUriBulkInsert(CoubStore.CategoriesTable.CONTENT_URI, CoubsContentProvider.BulkInsertConflictMode.INSERT), cvs);
+    }
+
+    public static void insertCoubs(Context context, ArrayList<CoubItem> coubs) {
+
     }
 }

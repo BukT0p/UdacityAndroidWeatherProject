@@ -6,6 +6,9 @@ import android.os.Handler;
 
 import com.dataart.vyakunin.coubplayer.service.messaging.ResultReceiverManager;
 
+import org.androidannotations.annotations.EApplication;
+
+@EApplication
 public class CoubApplication extends Application {
     private ResultReceiverManager resultReceiverManager;
 

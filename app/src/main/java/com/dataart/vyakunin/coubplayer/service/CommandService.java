@@ -101,8 +101,7 @@ public class CommandService extends Service {
         final Command command = intent.getParcelableExtra(EXTRA_COMMAND);
         if (null != command) {
             try {
-                command.execute(this,
-                        intent.<ResultReceiver>getParcelableExtra(EXTRA_RECEIVER));
+                command.execute(this, intent.<ResultReceiver>getParcelableExtra(EXTRA_RECEIVER));
             } catch (Exception e) {
                 e.printStackTrace();
             }

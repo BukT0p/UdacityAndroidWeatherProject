@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.dataart.vyakunin.coubplayer.CoubApplication;
@@ -20,8 +21,6 @@ import java.util.List;
 
 @EActivity
 public abstract class BaseActivity extends ActionBarActivity {
-
-
     private Fragment currentFragment;
 
     @ViewById(R.id.progress_overlay)
@@ -34,7 +33,18 @@ public abstract class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setLayout();
+    }
+
+
+    /**
+     * Override this method to set your custom layout,
+     * you should provide progress view and container in your layout
+     * See R.layout.activity_base for details
+     */
+    protected void setLayout() {
         setContentView(R.layout.activity_base);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar_widget));
     }
 
     @Override
@@ -68,8 +78,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         if ((fragmentManager.getBackStackEntryCount() > 0) && (addToBackStack) && (fragmentManager.findFragmentByTag(ftag) != null)) {
             fragmentManager.popBackStack(ftag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
-        FragmentTransaction transaction = fragmentManager
-                .beginTransaction();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (ftag == null) {
             transaction.replace(R.id.container, fragment);
         } else {

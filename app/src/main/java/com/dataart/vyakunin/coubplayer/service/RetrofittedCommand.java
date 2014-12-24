@@ -1,9 +1,6 @@
 package com.dataart.vyakunin.coubplayer.service;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
 
 import com.dataart.vyakunin.coubplayer.BuildConfig;
 import com.dataart.vyakunin.coubplayer.util.IOUtil;
@@ -17,17 +14,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.util.List;
 
 import retrofit.RestAdapter;
 import retrofit.RestAdapter.LogLevel;
 import retrofit.client.Response;
 import retrofit.converter.ConversionException;
 import retrofit.converter.Converter;
-import retrofit.http.Body;
 import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.mime.MimeUtil;
 import retrofit.mime.TypedByteArray;
@@ -41,12 +34,6 @@ public abstract class RetrofittedCommand extends Command {
     private static final String RESULT = "Result";
     private final static String UTF8 = "UTF-8";
     private final static String MIME_TYPE = "application/json; charset=UTF-8";
-
-    protected int bulkInsert(final Uri uri, final List<ContentValues> values) {
-        final ContentResolver resolver = context.getContentResolver();
-        final int rows = resolver.bulkInsert(uri, values.toArray(new ContentValues[values.size()]));
-        return rows;
-    }
 
     protected JSONObject getResultObject(final JSONObject json) throws JSONException {
         return json.getJSONObject(RESULT);
@@ -87,21 +74,19 @@ public abstract class RetrofittedCommand extends Command {
     protected interface TargetApi {
         @GET("/categories")
         JSONArray getCategories();
-/*
-        @GET("/daily")
-        JSONObject getForecast(@Query("q") String locationNameOrZipCode,
-                               @Query("cnt") int numOfDays,
-                               @Query("units") String units);
 
-        @POST("/login")
-        JSONObject login(@Body JSONObject params);
+        @GET("/timeline/explore")
+        JSONObject getAll(@Query("page") int page, @Query("per_page") int perPage);
 
-        @GET("/contact/{email}/check")
-        JSONObject checkContact(@Path("email") String email);
+        @GET("/timeline/explore/{permalink}")
+        JSONObject getAllForCategory(@Query("page") int page, @Query("per_page") int perPage);
 
-        @POST("/registrant")
-        Response registrant(@Body JSONObject params);*/
+        @GET("/search")
+        JSONObject getSearchResults(@Query("q") String query, @Query("page") int page, @Query("per_page") int perPage);
 
+        //  TODO:
+        //  * Add Authorization
+        //  * Add ratings
     }
 
 
@@ -123,40 +108,10 @@ public abstract class RetrofittedCommand extends Command {
         public JSONArray getCategories() {
             return api.getCategories();
         }
-/*
-        public JSONObject login(String email, String password, boolean remember) {
-            JSONObject params = new JSONObject();
-            try {
-                params.put("EmailAddress", email);
-                params.put("Password", password);
-                params.put("Remember", String.valueOf(remember));
-                params.put("RememberMe", String.valueOf(remember));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return api.login(params);
-        }
 
-        public JSONObject checkContact(String email) {
-            return api.checkContact(email);
+        public JSONObject getCoubs(String permalink, int page, int perPage) {
+            return permalink.isEmpty() ? api.getAll(page, perPage) : api.getAllForCategory(page, perPage);
         }
-
-        public Response registrant(String email, String baseUrl, int countryIsoCode) {
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("Email", email);
-                jsonObject.put("RegistrationBaseUrl", baseUrl);
-                jsonObject.put("CountryIsoCode", countryIsoCode);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return api.registrant(jsonObject);
-        }
-
-        public JSONObject getWeatherForecast(String units, int days, String locationOrZip) {
-            return api.getForecast(locationOrZip, days, units);
-        }
-        */
     }
 
 

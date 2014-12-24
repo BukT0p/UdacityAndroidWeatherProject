@@ -1,6 +1,7 @@
 package com.dataart.vyakunin.coubplayer.datamodel;
 
 import com.dataart.vyakunin.coubplayer.datamodel.models.CoubCategory;
+import com.dataart.vyakunin.coubplayer.datamodel.models.CoubItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,11 +27,17 @@ public class JSONHelper {
         return categoriesList;
     }
 
+    public static ArrayList<CoubItem> getCoubs(JSONObject coubs) throws JSONException {
+        return null;
+    }
+
     public static class JsonValues {
         //Category
         public static final String CATEGORY_TITLE = "title";
         public static final String CATEGORY_IMAGE = "image";
         public static final String CATEGORY_PERMALINK = "permalink";
+        //Coub
+
 
     }
 }
